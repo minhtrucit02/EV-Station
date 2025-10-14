@@ -10,11 +10,10 @@ services:
     environment:
       MYSQL_HOST: evcs_mysql         
       MYSQL_USER: root
-      MYSQL_PASSWORD: 292902      
-      MONGO_URI: mongodb://evcs_mongo:27017/evcsms_db
+      MYSQL_PASSWORD: 292902
+      MYSQL_DB: evcsms_db      
     depends_on:
       - evcs_mysql
-      - evcs_mongo
 
   evcs_mysql:
     image: mysql:8.0
@@ -28,15 +27,5 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  evcs_mongo:
-    image: mongo:6.0
-    container_name: evcs_mongo
-    restart: always
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-
 volumes:
   mysql_data:
-  mongo_data:

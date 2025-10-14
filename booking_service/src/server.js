@@ -1,32 +1,36 @@
-// testBooking.js
-import sequelize from './config/mysql.js';
-import Booking from './models/mysql/booking.js'; // đường dẫn tuỳ bạn
+import "dotenv/config.js";
+import express from "express";
+import bookingRouter from "./routes/booking.router.js";
+import sequelize from "./config/mysql.js";
 
-async function test() {
+async function startServer() {
   try {
-    // 1. Kết nối tới MySQL
     await sequelize.authenticate();
-    console.log('✅ MySQL connected successfully.');
+    console.log("MySQL connected successfully.");
 
-    // 2. Sync model (tạo bảng nếu chưa có)
-    await Booking.sync({ alter: true });
-    console.log('✅ Booking table synced.');
+    await sequelize.sync(); // Ensure all models are synced
+    console.log("MySQL tables synced.");
 
-    // 3. Tạo dữ liệu test
-    // const booking = await Booking.create({
-    //   user_id: 1,
-    //   point_id: 10,
-    //   schedule_start_time: new Date(Date.now() + 60 * 60 * 1000), // sau 1 tiếng
-    //   schedule_end_time: new Date(Date.now() + 2 * 60 * 60 * 1000), // sau 2 tiếng
-    //   status: 'HELD'
-    // });
+    const app = express();
+    app.use(express.json());
 
-    // console.log('✅ Booking created:', booking.toJSON());
-  } catch (err) {
-    console.error('❌ Error:', err);
-  } finally {
-    await sequelize.close();
+    // Root check route
+    app.get("/", (req, res) => {
+      res.send("EVCS Booking Service is running");
+    });
+
+    // Main API routes
+    app.use("/api/v1/bookings", bookingRouter);
+
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+      console.log(`API available at: http://localhost:${PORT}/api/v1/bookings`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
   }
 }
 
-test();
+startServer();
