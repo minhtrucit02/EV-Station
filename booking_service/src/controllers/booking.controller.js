@@ -9,15 +9,13 @@ export async function createBooking(req, res) {
 
 // Get all bookings
 export async function getAllBookings(req, res) {
-    try {
-        const bookings = await Booking.findAll();
-        if (!bookings || bookings.length == 0) {
-            return res.status(404).json({ message: "No bookings found", data: [] });
-        }
-        return res.status(200).json({ message: "Bookings fetched successfully", count: bookings.length, data: bookings });
-    } catch (error) {
-        console.error("Error fetching bookings:", error);
-        return res.status(500).json({ message: "Internal server error" });
-    }
+    const result = await BookingService.getAllBookings();
+    return res.status(result.status).json(result);
 }
 
+// Get a booking by ID
+export async function getBookingById(req, res) {
+    const { id } = req.params;
+    const result = await BookingService.getBookingById(id);
+    return res.status(result.status).json(result);
+}
