@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.example.ev_point"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -23,6 +23,12 @@ android {
 
     kotlinOptions {
         jvmTarget = "11"
+    }
+
+    packaging {
+        resources {
+            excludes += "META-INF/DEPENDENCIES"
+        }
     }
 
     buildTypes {
