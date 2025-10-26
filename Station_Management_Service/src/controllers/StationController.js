@@ -1,4 +1,4 @@
-import Station from "../models/station.js";
+import Station from "../models/Station.js";
 // create trạm 
  export const createStation =  async (req,res)=>{
     try {
