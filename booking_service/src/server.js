@@ -22,10 +22,10 @@ async function startServer() {
     // Main API routes
     app.use("/api/v1/bookings", bookingRouter);
 
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`API available at: http://localhost:${PORT}/api/v1/bookings`);
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`✅ Booking Service running on port ${PORT}`);
+      console.log(`📡 API available at: http://localhost:${PORT}/api/v1/bookings`);
     });
   } catch (error) {
     console.error("Failed to start server:", error);
